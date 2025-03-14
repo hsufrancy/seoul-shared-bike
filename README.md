@@ -1,36 +1,77 @@
 # 🚲 Seoul Shared Bike Usage Classification
 This repository is for my final project in Machine Learning course at Seoul National University.
 
-### Introduction
-Currently, rental bikes have been introduced in many urban cities to enhance mobility comfort. Ensuring that rental bikes are available and accessible to the public at the right time is crucial, as it reduces waiting
-times. Consequently, maintaining a stable supply of rental bikes throughout the city has become a significant concern. A critical aspect of this is predicting the number of bikes needed each hour to ensure
-a consistent supply.
+## **Project Overview**  
+This project focuses on **classifying the demand for shared bikes in Seoul** based on historical weather conditions, time-related features, and external factors. The goal is to predict whether the **bike demand will be high or low**, enabling better resource allocation for the shared bike system.  
 
-The resaon why I choose this dataset as my term project is because being an exchange student to Korea, I want to do some projects related to Korean social issues, and then I found something in common with my
-home country, Taiwan. In Taiwan, we have a shard bike network called Ubike, which is so ubiquitous that people take advantage of it almost every day. But sometimes, I cannot find even one Ubike’s bicycle on
-all surrounding stops. It indeicates that perhaps the government does not accurately estimate the demand of shared bikes and assign them to each stop accordingly. Being inspired by the similar problem in
-Taiwan, I would like to perform classification using Seoul Bike Sharing Dataset and try to address this issue by logistic regression we learned during classes.
+## **Motivation**  
+As an exchange student in South Korea, I wanted to work on a project related to local social issues. I found similarities between Seoul’s bike-sharing system and Taiwan’s **Ubike**, where demand is often misestimated, leading to a shortage of available bikes at key locations. Inspired by this issue, I applied **logistic regression** to classify demand using the **Seoul Bike Sharing Demand Dataset** from the UCI Machine Learning Repository.  
 
-### Data Source
-Source: UCI Machine Learning Repository (https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand)
+## **Dataset**  
+- **Source**: [Seoul Bike Sharing Demand Dataset - UCI](https://archive.ics.uci.edu/dataset/560/seoul+bike+sharing+demand)  
+- **Instances**: 8,760 (hourly data)  
+- **Features (14 variables)**:  
+  - **Target Variable**: `Rented Bike Count` (transformed into high/low demand categories)  
+  - **Time Features**: `Date`, `Hour`, `Seasons`, `Holiday`, `Functional Day`  
+  - **Weather Features**: `Temperature`, `Humidity`, `Windspeed`, `Visibility`, `Dew Point Temperature`, `Solar Radiation`, `Rainfall`, `Snowfall`  
 
-### Outline
+## **Methodology**  
 
-**Step 0** Introduce to the dataset
+### **Step 1: Data Preprocessing**  
+- **Transform `Rented Bike Count` into a categorical variable**:  
+  - Used the **75th percentile as a threshold** to classify demand into **High Demand (≥75th percentile) and Low Demand (<75th percentile)**.  
+- **Removed irrelevant features**, such as `Date`.  
+- **Converted categorical variables** (`Seasons`, `Holiday`) into dummy variables to avoid multicollinearity.  
+- **Ensured data integrity** by keeping all 8,760 instances.  
 
-**Step 1** Load the Dataset
+### **Step 2: Splitting the Data**  
+- **Training Set**: 60%  
+- **Cross-Validation Set**: 20%  
+- **Test Set**: 20%  
+- Verified that all sets maintain the original data distribution.  
 
-**Step 2** Preprocess the Data for Logistic Regression
+### **Step 3: Model Implementation – Logistic Regression**  
+- Implemented **binary classification** to predict bike demand.  
+- **Evaluated performance metrics**:  
+  - **Accuracy**: 85.27%  
+  - **Precision**: 84.99%  
+  - **Recall**: 85.27%  
+  - **F1-Score**: 85.10%  
+- **Addressed convergence issues** by increasing the number of iterations and applying feature scaling.  
 
-**Step 3** Split the Data into Training, Cross-Validation, and Test Sets
+### **Step 4: Model Optimization & Regularization**  
+- **Polynomial Features Regularization**:  
+  - Improved **accuracy to 89.84%** by capturing non-linear relationships.  
+- **L1 & L2 Regularization**:  
+  - Compared performance to prevent overfitting.  
+- **Feature Scaling Analysis**:  
+  - Standardization led to small but consistent improvements in performance.  
 
-**Step 4** Implement and Evaluate Logistic Regression
+### **Step 5: Cross-Validation & Generalization**  
+- Applied **cross-validation** to ensure model stability and reliability.  
+- Achieved an **average accuracy of 86.8% across folds**, with low variance.  
 
-**Step 5** Polynomial Features Regularization
+## **Key Findings & Insights**  
+- **The 75th percentile threshold effectively differentiates high and low demand.**  
+- **Polynomial features significantly improve model accuracy.**  
+- **Feature scaling enhances convergence and performance stability.**  
+- **Cross-validation confirms strong generalization capability.**  
 
-**Step 6** L1 and L2 Regularization
+## **Future Improvements**  
+- **Test additional models**, such as Decision Trees or Neural Networks.  
+- **Incorporate external data**, such as traffic congestion and public holidays.  
+- **Implement a real-time prediction system** for bike allocation.  
 
-**Step 7** Employ Cross-Validation Techniques to Evaluate the Generalization Performance
+## **How to Run the Project**  
+### **Requirements**  
+Install dependencies:  
+```bash
+pip install pandas numpy scikit-learn matplotlib seaborn
+```
+### **Run the Jupyter Notebook**  
+```bash
+jupyter notebook Seoul_Bike_Classification.ipynb
+```
 
-**Step 8** Analyze the Influence of Feature Scaling Techniques
-
+## **Author**  
+**Francy Hsu**  
